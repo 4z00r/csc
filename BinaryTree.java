@@ -133,8 +133,8 @@ public class BinaryTree{
             else {
                 node = node.right; 
             }
-            return node;
         }
+        return node;
     }
     public Node findMin(Node node) {
         if (node != null) {
@@ -176,12 +176,22 @@ public class BinaryTree{
                 line= lineRead.split("\t");                
                 kb object = new kb(line[0], line[1], line[2]);
                 //Node node = new Node(object);
-                tree.insert(object);
+                if (object.getTerm().compareTo((tree.find(object.getTerm())).line.term) == 0)
+                    tree.updateTerm(object.getTerm(),object.getSentence(),object.getConfidencelvl(), tree);
+                else 
+                    tree.insert(object);
             }
             scanner.close();
         }
         catch (Exception e){ 
             System.out.println("Error! File not found");             // if file not found - prints error
          }
+    }
+
+    public void updateTerm(String term, String sentence, String lvl, BinaryTree tree){
+        tree.delete(term);
+        kb update = new kb(term,sentence,lvl);
+        tree.insert(update);
+        System.out.println("Statement for term " + term + " has been updated.");
     }
 }
